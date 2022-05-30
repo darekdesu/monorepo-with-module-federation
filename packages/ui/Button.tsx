@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Button as MantineButton } from "@mantine/core";
+
 export const Button = () => {
-  return <button>Boop</button>;
+  return <MantineButton>Boop</MantineButton>;
 };
