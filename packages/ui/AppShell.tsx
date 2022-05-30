@@ -1,22 +1,12 @@
 import * as React from "react";
-import {
-  AppShell as MantineAppShell,
-  MantineProvider,
-  Header,
-  Title,
-  Navbar,
-  UnstyledButton,
-} from "@mantine/core";
-import { BrowserRouter, Outlet, Route, Routes, Link } from "react-router-dom";
+import { AppShell as MantineAppShell, MantineProvider } from "@mantine/core";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import NavigationBar, { NavLink } from "./NavigationBar";
+import MainHeader from "./MainHeader";
 
 export interface Route {
   path: string;
   element: React.FunctionComponent;
-}
-
-export interface NavLink {
-  label: string;
-  path: string;
 }
 
 export interface AppShellProps {
@@ -25,12 +15,6 @@ export interface AppShellProps {
   routes: Route[];
   navLinks: NavLink[];
 }
-
-const MainLink = ({ label, path }: NavLink) => (
-  <Link to={path}>
-    <UnstyledButton>{label}</UnstyledButton>
-  </Link>
-);
 
 export const AppShell: React.FunctionComponent<AppShellProps> = ({
   title,
@@ -48,25 +32,16 @@ export const AppShell: React.FunctionComponent<AppShellProps> = ({
     >
       <MantineAppShell
         padding="md"
-        navbar={
-          <Navbar width={{ base: 300 }} height={500} p="xs">
-            {navLinks.map((link) => (
-              <MainLink key={link.path} path={link.path} label={link.label} />
-            ))}
-          </Navbar>
-        }
-        header={
-          <Header
-            height={60}
-            p="xs"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Title>{title}</Title>
-          </Header>
-        }
+        navbar={<NavigationBar navLinks={navLinks} />}
+        header={<MainHeader title={title} />}
+        styles={(theme) => ({
+          main: {
+            backgroundColor:
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[8]
+                : theme.colors.gray[0],
+          },
+        })}
       >
         <Routes>
           {routes.map((route) => (
